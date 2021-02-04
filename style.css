@@ -1,0 +1,88 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: 'Trebuchet MS';
+	color: black;
+	font-size: 16px;
+	border-radius: 25px;
+}
+
+body {
+	background: linear-gradient(to right bottom, rgb(17, 221, 160), rgb(152, 15, 177));
+	/* background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center; */
+	min-width: 800px;	/**/
+	text-align: center;
+}
+
+#main {
+	background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.25));
+	padding: 30px;
+	margin: auto;
+	max-width: 700px;
+	height: 96vh;
+	margin-top: 2vh;
+	margin-bottom: 2vh;
+	backdrop-filter: blur(25px);
+}
+
+#search {
+	background: linear-gradient( to right bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+	padding: 1vh 14px;
+	width: 65%;
+	border: none;
+	outline: none;
+}
+
+#results {
+	margin-top: 5.5vh;
+	height: 80vh;
+	overflow: auto;
+}
+
+#results::-webkit-scrollbar {
+	width: 0px;
+}
+
+.card {
+	background: linear-gradient( to right bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+	margin: 20px;
+	padding: 20px;
+	overflow: hidden;
+}
+
+.title-wrapper {
+	cursor: pointer;
+	margin-bottom: 20px;
+}
+
+.cont {
+	margin-bottom: 20px;
+	text-align: justify;
+}
+
+.wrapper {
+	margin-top: 3px;
+	text-align: left;
+	display: flex;
+}
+
+.tag1 {
+	background: linear-gradient( to right bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+	font-size: 0.75rem;
+	padding: 5px;
+	margin: 1px;
+	max-width: fit-content;
+}
+
+.tag2 {
+	background: linear-gradient( to right bottom, rgba(50, 50, 50, 0.75), rgba(50, 50, 50, 0.4));
+	font-size: 0.75rem;
+	padding: 5px;
+	margin: 1px;
+	max-width: fit-content;
+	color: white;
+	/* text-decoration: none; */
+}

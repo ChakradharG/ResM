@@ -1,4 +1,4 @@
-# Name of the Repository
+# ResM
 (Introduction, a bit bigger than description)
 
 <br>
