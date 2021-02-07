@@ -51,6 +51,7 @@ body {
 	margin: 20px;
 	padding: 20px;
 	overflow: hidden;
+	transition: .25s ease;
 }
 
 .title-wrapper {
