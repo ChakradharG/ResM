@@ -1,6 +1,14 @@
 const resultsDiv = document.getElementById('results');
 
 
+function createCustomElement(elemType, clsName, inhtml) {
+	let element = document.createElement(elemType);
+	element.className = clsName;
+	if (inhtml) element.innerHTML = inhtml;
+	return element;
+}
+
+
 function searchQ() {
 	resultsDiv.innerHTML = "";
 	let inp = document.getElementById('search').value;
@@ -8,49 +16,33 @@ function searchQ() {
 	if (inp != '') {
 		for (let d of data) {
 			if (d.name.toLowerCase().includes(inp.toLowerCase())) {
-				let card = document.createElement('div');
-				card.className = 'card';
+				let card = createCustomElement('div', 'card');
 				card.style.maxHeight = '60px';
 				resultsDiv.appendChild(card);
 
-				let titleWrapper = document.createElement('div');
-				titleWrapper.className = 'title-wrapper';
-				titleWrapper.onclick = () => {
-					titleWrapper.parentElement.style.maxHeight = (titleWrapper.parentElement.style.maxHeight == '60px') ? (titleWrapper.parentElement.scrollHeight + 'px') : '60px';
+				let title = createCustomElement('div', 'title-wrapper', `<a href=${d.link} target="_blank">${d.name}</a>`);
+				title.onclick = () => {
+					let tempCard = title.parentElement;
+					tempCard.style.maxHeight = (tempCard.style.maxHeight == '60px') ? (tempCard.scrollHeight + 'px') : '60px';
 				}
-				titleWrapper.innerHTML = `<a href=${d.link} target="_blank">${d.name}</a>`;
-				card.appendChild(titleWrapper);
+				card.appendChild(title);
 				
-				if (d.cont.length != 0) {
-					let cont = document.createElement('div');
-					cont.className = 'cont';
-					cont.innerHTML = d.cont;
-					card.appendChild(cont);
-				}
+				if (d.cont.length != 0)
+					card.appendChild(createCustomElement('div', 'cont', d.cont));
 
 				if (d.tags.length != 0) {
-					let tagWrapper = document.createElement('div');
-					tagWrapper.className = 'wrapper';
-					for (let t of d.tags) {
-						let tag = document.createElement('a');
-						tag.className = 'tag1';
-						tag.innerHTML = t;
-						tagWrapper.appendChild(tag)
-					}
+					let tagWrapper = createCustomElement('div', 'wrapper');
 					card.appendChild(tagWrapper);
+					for (let t of d.tags)
+						tagWrapper.appendChild(createCustomElement('a', 'tag1', t));
 				}
 				
 				if (d.proj.length != 0) {
-					let projWrapper = document.createElement('div');
-					projWrapper.className = 'wrapper';
-					for (let p of d.proj){
-						let tag = document.createElement('a');
-						tag.className = 'tag2';
-						tag.innerHTML = p;
-						// tag.href = 'https://google.com';
-						projWrapper.appendChild(tag)
-					}
+					let projWrapper = createCustomElement('div', 'wrapper');
 					card.appendChild(projWrapper);
+					for (let p of d.proj)
+						projWrapper.appendChild(createCustomElement('a', 'tag2', p));
+						// tag.href = 'https://google.com';
 				}
 			}
 		}
