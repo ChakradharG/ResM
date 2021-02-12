@@ -17,13 +17,13 @@ function searchQ() {
 		for (let d of data) {
 			if (d.name.toLowerCase().includes(inp.toLowerCase())) {
 				let card = createCustomElement('div', 'card');
-				card.style.maxHeight = '60px';
+				card.style.maxHeight = '59px';
 				resultsDiv.appendChild(card);
 
 				let title = createCustomElement('div', 'title-wrapper', `<a href=${d.link} target="_blank">${d.name}</a>`);
 				title.onclick = () => {
 					let tempCard = title.parentElement;
-					tempCard.style.maxHeight = (tempCard.style.maxHeight == '60px') ? (tempCard.scrollHeight + 'px') : '60px';
+					tempCard.style.maxHeight = (tempCard.style.maxHeight == '59px') ? (tempCard.scrollHeight + 'px') : '59px';
 				}
 				card.appendChild(title);
 				
