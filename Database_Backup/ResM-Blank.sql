@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS `resources`;
 CREATE TABLE `resources` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL,
-  `link` varchar(200) DEFAULT NULL,
+  `link` varchar(300) DEFAULT NULL,
   `cont` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS `projects`;
 CREATE TABLE `projects` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
-  `link` varchar(100) DEFAULT NULL,
+  `link` varchar(300) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 );
@@ -24,7 +24,7 @@ CREATE TABLE `projects` (
 DROP TABLE IF EXISTS `tags`;
 CREATE TABLE `tags` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) NOT NULL,
+  `name` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 );
