@@ -1,0 +1,22 @@
+{
+  "name": "resm",
+  "version": "1.0.0",
+  "description": "An all in one Resource Manager",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChakradharG/ResM.git"
+  },
+  "author": "Chakradhar G",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ChakradharG/ResM/issues"
+  },
+  "homepage": "https://github.com/ChakradharG/ResM#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
