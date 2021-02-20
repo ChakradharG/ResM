@@ -31,20 +31,26 @@ function searchQ() {
 				if (d.cont.length != 0)
 					card.appendChild(newElem('div', 'cont', d.cont));
 
-				if (d.tags.length != 0) {
-					let tagWrapper = newElem('div', 'wrapper');
-					card.appendChild(tagWrapper);
-					for (let t of d.tags)
-						tagWrapper.appendChild(newElem('a', 'tag1', t));
-				}
+				let outer = newElem('div', 'outer-wrapper');
+				card.appendChild(outer);
+				let wrapper = newElem('div', 'wrapper');
+				outer.appendChild(wrapper);
+				for (let t of d.tags)
+					wrapper.appendChild(newElem('a', 'tag1', t));
 
 				if (d.proj.length != 0) {
-					let projWrapper = newElem('div', 'wrapper');
-					card.appendChild(projWrapper);
+					if (d.tags.length != 0) {
+						outer = newElem('div', 'outer-wrapper');
+						card.appendChild(outer);
+						wrapper = newElem('div', 'wrapper');
+						outer.appendChild(wrapper);
+					}
 					for (let p of d.proj)
-						projWrapper.appendChild(newElem('a', 'tag2', p));
-						// tag.href = 'https://google.com';
+						wrapper.appendChild(newElem('a', 'tag2', p));
 				}
+
+				let editBtn = newElem('button', 'edit-btn', `<img src="./Assets/edit.svg" alt="edit button">`);
+				outer.appendChild(editBtn);
 			}
 		}
 	}
