@@ -49,8 +49,12 @@ function searchQ() {
 						wrapper.appendChild(newElem('a', 'tag2', p));
 				}
 
+				let editForm = document.createElement('form');
+				editForm.method = 'GET';
+				editForm.action = './Edit/edit.html';
+				outer.appendChild(editForm);
 				let editBtn = newElem('button', 'edit-btn', `<img src="./Assets/edit.svg" alt="edit button">`);
-				outer.appendChild(editBtn);
+				editForm.appendChild(editBtn);
 			}
 		}
 	}
