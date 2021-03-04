@@ -169,6 +169,8 @@ textarea {
 
 code {
 	background-color: rgba(25, 25, 25, 0.75);
-	color: rgb(210, 210, 210);
+	font-size: 0.9rem;
+	font-family: 'cascadia code';
+	color: rgb(230, 230, 230);
 	padding: 2px 5px;
 }
