@@ -1,5 +1,11 @@
 const resultsDiv = document.getElementById('results');
+let data = null;
 
+
+(async () => {
+	const response = await fetch('/api/data', {method: 'GET'});
+	data = await response.json();
+})();
 
 function newElem(elemType, clsName, inhtml) {
 	let element = document.createElement(elemType);
@@ -7,7 +13,6 @@ function newElem(elemType, clsName, inhtml) {
 	if (inhtml) element.innerHTML = inhtml;
 	return element;
 }
-
 
 function searchQ() {
 	resultsDiv.innerHTML = "";
@@ -20,7 +25,7 @@ function searchQ() {
 				card.style.maxHeight = '59px';
 				resultsDiv.appendChild(card);
 
-				let link = (d.link.length === 0) ? `` : `href=${d.link}`;
+				let link = (d.link === null) ? `` : `href=${d.link}`;
 				let title = newElem('div', 'title-wrapper', `<a ${link} target="_blank">${d.name}</a>`);
 				title.onclick = () => {
 					let tempCard = title.parentElement;
@@ -28,7 +33,7 @@ function searchQ() {
 				}
 				card.appendChild(title);
 				
-				if (d.cont.length != 0)
+				if (d.cont?.length != 0)
 					card.appendChild(newElem('div', 'cont', d.cont));
 
 				let outer = newElem('div', 'outer-wrapper');
@@ -36,7 +41,7 @@ function searchQ() {
 				let wrapper = newElem('div', 'wrapper');
 				outer.appendChild(wrapper);
 				for (let t of d.tags)
-					wrapper.appendChild(newElem('a', 'tag1', t));
+					wrapper.appendChild(newElem('a', 'tag1', t.name));
 
 				if (d.proj.length != 0) {
 					if (d.tags.length != 0) {
@@ -45,16 +50,21 @@ function searchQ() {
 						wrapper = newElem('div', 'wrapper');
 						outer.appendChild(wrapper);
 					}
-					for (let p of d.proj)
-						wrapper.appendChild(newElem('a', 'tag2', p));
+					for (let p of d.proj) {
+						let pElem = newElem('a', 'tag2', p.name);
+						if (p.link !== null) {
+							pElem.href = p.link;
+							pElem.target = '_blank';
+						}
+						wrapper.appendChild(pElem);
+					}
 				}
 
-				let editForm = document.createElement('form');
-				editForm.method = 'GET';
-				editForm.action = './Edit/edit.html';
-				outer.appendChild(editForm);
-				let editBtn = newElem('button', 'edit-btn', `<img src="./Assets/edit.svg" alt="edit button">`);
-				editForm.appendChild(editBtn);
+				let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
+				editBtn.onclick = () => {
+					window.location.href = '/Edit/edit.html'
+				}
+				outer.appendChild(editBtn);
 			}
 		}
 	}

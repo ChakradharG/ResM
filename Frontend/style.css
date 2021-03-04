@@ -131,4 +131,11 @@ button:hover {
 	padding: 5px;
 	margin: 1px;
 	max-width: fit-content;
+	text-decoration: none;
+}
+
+code {
+	background-color: rgba(25, 25, 25, 0.75);
+	color: rgb(210, 210, 210);
+	padding: 2px 5px;
 }

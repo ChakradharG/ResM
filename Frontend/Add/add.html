@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script defer src="./add.js"></script>
+	<link rel="stylesheet" href="./add.css">
+	<link rel="icon" href="/Assets/favicon.ico">
+	<title>Add</title>
+</head>
+
+<body>
+	<div id="main">
+		<div id="results">
+			<div class="card">
+				<div class="title-wrapper">
+					<input type="text" class="add" id="title" maxlength="60" placeholder="Name (60 Characters Only)" autofocus>
+				</div>
+				<input type="text" class="add" id="link" maxlength="300" placeholder="Link (300 Characters Only)">
+				<div class="cont">
+					<textarea class="add" id="content" rows="7" warp="soft" maxlength="1000" placeholder="Content (1000 Characters Only)"></textarea>
+				</div>
+				
+				<div class="outer-wrapper">
+				</div>
+				<div class="outer-wrapper">
+				</div>
+
+				<div id="bottom">
+					<input list="tags" class="dropdown" placeholder="Add a tag">
+					<datalist id="tags">
+					</datalist>
+
+					<input list="projects" class="dropdown" placeholder="Add a project">
+					<datalist id="projects">
+					</datalist>
+
+					<input class="form-btn" type="button" value="✔" onclick="addNew()">
+					<input class="form-btn" type="button" value="✖" onclick="cancel()">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

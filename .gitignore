@@ -1,2 +1,3 @@
 Local_Resources/
 node_modules/
+.env
