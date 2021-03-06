@@ -90,7 +90,10 @@ function tagSearch(inp) {
 	searchTerm = strToRegEx(inp);
 	for (let d of data) {
 		for (let t of d.tags) {
-			if (searchTerm.test(t.name)) appendCard(d);
+			if (searchTerm.test(t.name)) {
+				appendCard(d);
+				break;
+			}
 		}
 	}
 }
@@ -100,7 +103,10 @@ function proSearch(inp) {
 	searchTerm = strToRegEx(inp);
 	for (let d of data) {
 		for (let p of d.proj) {
-			if (searchTerm.test(p.name)) appendCard(d);
+			if (searchTerm.test(p.name)) {
+				appendCard(d);
+				break;
+			}
 		}
 	}
 }
