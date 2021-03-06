@@ -14,17 +14,22 @@ body {
 	background-attachment: fixed;
 	background-position: center;
 	min-width: 620px;
+	height: 100vh;
 	min-height: 720px;
 	text-align: center;
+	display: flex;
+}
+
+body::-webkit-scrollbar {
+	width: 0px;
 }
 
 #main {
 	background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.25));
 	backdrop-filter: blur(25px);
-	padding: 30px;
+	padding: 30px 0px;
 	margin: auto;
-	margin-top: 2vh;
-	margin-bottom: 2vh;
+	min-height: 690px;
 	height: 96vh;
 	min-width: 600px;
 	width: 75%;
@@ -73,8 +78,10 @@ button:hover {
 }
 
 #results {
-	margin-top: 5vh;
-	height: 80vh;
+	margin: 30px;
+	position: absolute;
+	top: 67px;
+	bottom: 0px;
 	overflow: auto;
 	border-radius: 0px;
 }
