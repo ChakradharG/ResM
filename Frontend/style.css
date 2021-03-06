@@ -122,6 +122,7 @@ button:hover {
 	padding: 5px;
 	margin: 1px;
 	max-width: fit-content;
+	cursor: pointer;
 }
 
 .tag2 {
