@@ -80,6 +80,8 @@ button:hover {
 #results {
 	margin: 30px;
 	position: absolute;
+	left: 0px;
+	right: 0px;
 	top: 67px;
 	bottom: 0px;
 	overflow: auto;
