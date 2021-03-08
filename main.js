@@ -1,11 +1,40 @@
 import express from 'express';
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
 
 dotenv.config();
+const __dirname = path.resolve();
 const app = express();
 const PORT = '5500';
 
+
+function addCustomStyle(str) {
+	str = str.replace(/</g, '&lt;');
+	return(`<!DOCTYPE HTML>
+	<html>
+	<style>
+	body {
+		background-color: rgb(50, 50, 50);
+		color: white;
+		font-size: 18px;
+	}
+	body::-webkit-scrollbar {
+		width: 5px;
+		height: 5px;
+	}
+	body::-webkit-scrollbar-track {
+		background: black;
+	}
+	body::-webkit-scrollbar-thumb {
+		border-radius: 3px;
+		background: gray;
+	}
+	</style>
+	<pre>${str}</pre>
+	</html>`);
+}
 
 (async () => {
 	const db = await mysql.createConnection({
@@ -17,10 +46,24 @@ const PORT = '5500';
 
 	app.use('/', express.static('Frontend/'));
 	app.use('/Assets', express.static('Assets/'));
-	app.use('/Local_Resources', express.static('Local_Resources/'));
 	app.use('/Add', express.static('Frontend/Add/'));
 	app.use('/Edit', express.static('Frontend/Edit/'));
 	app.use(express.json());
+
+	app.get('/Local_Resources/:name', (req, res) => {
+		const name = req.params.name;
+		if (name.endsWith('.pdf')) {
+			res.sendFile(__dirname +`/Local_Resources/${name}`);
+		} else {
+			fs.readFile(`./Local_Resources/${name}`, 'utf8', (err, data) => {
+				if (err) {
+					console.log(err);
+				} else {
+					res.send(addCustomStyle(data));
+				}
+			});
+		}
+	});
 
 	app.get('/api/data', async (req, res) => {
 		let [data, fields] = await db.query('SELECT * FROM resources;');
