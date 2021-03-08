@@ -22,6 +22,12 @@ body {
 
 body::-webkit-scrollbar {
 	width: 0px;
+	height: 7px;
+}
+
+body::-webkit-scrollbar-thumb {
+	background-color: rgba(25, 25, 25, 0.75);
+	border-radius: 3px;
 }
 
 #main {
