@@ -10,10 +10,12 @@ const app = express();
 const PORT = '5500';
 
 
-function addCustomStyle(str) {
+function addCustomStyle(str, title) {
 	str = str.replace(/</g, '&lt;');
 	return(`<!DOCTYPE HTML>
 	<html>
+	<head>
+	<title>${title}</title>
 	<style>
 	body {
 		background-color: rgb(50, 50, 50);
@@ -32,7 +34,10 @@ function addCustomStyle(str) {
 		background: gray;
 	}
 	</style>
+	</head>
+	<body>
 	<pre>${str}</pre>
+	</body>
 	</html>`);
 }
 
@@ -51,7 +56,7 @@ function addCustomStyle(str) {
 	app.use(express.json());
 
 	app.get('/Local_Resources/:name', (req, res) => {
-		const name = req.params.name;
+		const { name } = req.params;
 		if (name.endsWith('.pdf')) {
 			res.sendFile(__dirname +`/Local_Resources/${name}`);
 		} else {
@@ -59,7 +64,7 @@ function addCustomStyle(str) {
 				if (err) {
 					console.log(err);
 				} else {
-					res.send(addCustomStyle(data));
+					res.send(addCustomStyle(data, name));
 				}
 			});
 		}
