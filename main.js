@@ -57,16 +57,21 @@ function addCustomStyle(str, title) {
 
 	app.get('/Local_Resources/:name', (req, res) => {
 		const { name } = req.params;
-		if (name.endsWith('.pdf')) {
-			res.sendFile(__dirname +`/Local_Resources/${name}`);
+		let fileName = __dirname +`/Local_Resources/${name}`;
+		if (fs.existsSync(fileName)) {
+			if (name.endsWith('.pdf')) {
+				res.sendFile(fileName);
+			} else {
+				fs.readFile(fileName, 'utf8', (err, data) => {
+					if (err) {
+						res.status(500).send(err);
+					} else {
+						res.send(addCustomStyle(data, name));
+					}
+				});
+			}
 		} else {
-			fs.readFile(`./Local_Resources/${name}`, 'utf8', (err, data) => {
-				if (err) {
-					console.log(err);
-				} else {
-					res.send(addCustomStyle(data, name));
-				}
-			});
+			res.status(404).send(`File '${fileName}' not found`)
 		}
 	});
 
@@ -105,20 +110,19 @@ function addCustomStyle(str, title) {
 		};
 
 		try {
-			await db.query('INSERT INTO resources SET ?', resource);
-			let [id, fields] = await db.query(`SELECT id FROM resources WHERE name = '${resource.name}';`);
+			let [result, fields] = await db.query('INSERT INTO resources SET ?', resource);
 
-			for (let i of req.body.tags) {
-				let [tag_id, fields] = await db.query(`SELECT id FROM tags WHERE name = '${i.name}';`);
-				db.query(`INSERT INTO res2tag_map VALUE(${id[0].id}, ${tag_id[0].id});`);
+			for (let tag of req.body.tags) {
+				await db.query(`INSERT INTO res2tag_map VALUE(${result.insertId}, ${tag.id});`);
 			}
 
-			for (let i of req.body.proj) {
-				let [pro_id, fields] = await db.query(`SELECT id FROM projects WHERE name = '${i.name}';`);
-				db.query(`INSERT INTO res2pro_map VALUE(${id[0].id}, ${pro_id[0].id});`);
+			for (let pro of req.body.proj) {
+				await db.query(`INSERT INTO res2pro_map VALUE(${result.insertId}, ${pro.id});`);
 			}
-		} catch(error) {
-			res.send(error);
+
+			res.status(200).end();
+		} catch (err) {
+			res.status(400).send(err);
 		}
 	});
 	
