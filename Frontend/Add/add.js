@@ -64,17 +64,29 @@ async function addNew() {
 	proj : []
 	};
 
+	let tempSet = new Set();
 	for (let t of document.getElementsByClassName('tag1')) {
+		if (tempSet.has(t.innerText)) continue;
+
+		tempSet.add(t.innerText);
 		for (let i of Tags) {
-			if (t.innerText === i.name)
+			if (t.innerText === i.name) {
 				res.tags.push(i);
+				break;
+			}
 		}
 	}
 
+	tempSet = new Set();
 	for (let p of document.getElementsByClassName('tag2')) {
+		if (tempSet.has(p.innerText)) continue;
+
+		tempSet.add(p.innerText);
 		for (let i of Proj) {
-			if (p.innerText === i.name)
+			if (p.innerText === i.name) {
 				res.proj.push(i);
+				break;
+			}
 		}
 	}
 
