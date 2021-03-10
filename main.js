@@ -76,14 +76,14 @@ function addCustomStyle(str, title) {
 	});
 
 	app.get('/api/data', async (req, res) => {
-		let [data, fields] = await db.query('SELECT * FROM resources;');
+		let [ data, fields ] = await db.query('SELECT * FROM resources;');
 
 		for (let elem of data) {
 			elem.tags = [];
 			elem.proj = [];
 
-			let [subQueryRes1, field1] = await db.query(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id where res2tag_map.res_id = ${elem.id};`);
-			let [subQueryRes2, field2] = await db.query(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id where res2pro_map.res_id = ${elem.id};`);
+			let [ subQueryRes1, field1 ] = await db.query(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id where res2tag_map.res_id = ${elem.id};`);
+			let [ subQueryRes2, field2 ] = await db.query(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id where res2pro_map.res_id = ${elem.id};`);
 			
 			subQueryRes1.forEach(t => elem.tags.push(t));
 			subQueryRes2.forEach(p => elem.proj.push(p));
@@ -93,12 +93,12 @@ function addCustomStyle(str, title) {
 	});
 
 	app.get('/api/tags', async (req, res) => {
-		let [tags, fields] = await db.query('SELECT * FROM tags;');
+		let [ tags, fields ] = await db.query('SELECT * FROM tags;');
 		res.send(tags);
 	});
 
 	app.get('/api/proj', async (req, res) => {
-		let [proj, fields] = await db.query('SELECT * FROM projects;');
+		let [ proj, fields ] = await db.query('SELECT * FROM projects;');
 		res.send(proj);
 	});
 
@@ -110,7 +110,7 @@ function addCustomStyle(str, title) {
 		};
 
 		try {
-			let [result, fields] = await db.query('INSERT INTO resources SET ?', resource);
+			let [ result, fields ] = await db.query('INSERT INTO resources SET ?', resource);
 
 			for (let tag of req.body.tags) {
 				await db.query(`INSERT INTO res2tag_map VALUE(${result.insertId}, ${tag.id});`);

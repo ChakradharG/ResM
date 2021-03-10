@@ -1,9 +1,7 @@
-let tagDatalist = document.getElementById('tags');
-let projDatalist = document.getElementById('projects');
-let inp1 = document.getElementsByClassName('dropdown')[0];
-let wrap1 = document.getElementsByClassName('outer-wrapper')[0];
-let inp2 = document.getElementsByClassName('dropdown')[1];
-let wrap2 = document.getElementsByClassName('outer-wrapper')[1];
+const tagDatalist = document.getElementById('tags');
+const projDatalist = document.getElementById('projects');
+const [ inp1, inp2 ] = document.getElementsByClassName('dropdown');
+const [ wrap1, wrap2 ] = document.getElementsByClassName('outer-wrapper');
 let Tags = null;
 let Proj = null;
 
@@ -59,9 +57,9 @@ inp2.addEventListener('keyup', (event) => {
 
 async function addNew() {
 	let res = {
-	name : document.getElementById('title').value,
-	link : document.getElementById('link').value,
-	cont : document.getElementById('content').value,
+	name : document.getElementById('title').value || null,
+	link : document.getElementById('link').value.replace(/ /g, '%20') || null,
+	cont : document.getElementById('content').value || null,
 	tags : [],
 	proj : []
 	};
@@ -80,15 +78,18 @@ async function addNew() {
 		}
 	}
 
-	res.link = res.link.includes('http') ? res.link : encodeURIComponent(res.link);
-
 	let response = await fetch('/api/data', {
 		method: 'POST',
 		body: JSON.stringify(res),
 		headers: { 'Content-type': 'application/json' }
 	});
-	let msg = await response.json();
-	window.location.href = '/';
+
+	if (response.ok) {
+		window.location.href = '/';
+	} else {
+		let msg = await response.json();
+		alert(msg.message)
+	}
 }
 
 
