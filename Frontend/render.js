@@ -70,7 +70,7 @@ function appendCard(d) {
 
 	let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
 	editBtn.onclick = () => {
-		window.location.href = '/Edit/edit.html'
+		window.location.href = `/Edit/${d.id}`
 	}
 	outer.appendChild(editBtn);
 }

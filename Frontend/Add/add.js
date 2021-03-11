@@ -55,7 +55,7 @@ inp2.addEventListener('keyup', (event) => {
 	}
 });
 
-async function addNew() {
+async function sendToServer(method) {
 	let res = {
 	name : document.getElementById('title').value || null,
 	link : document.getElementById('link').value.replace(/ /g, '%20') || null,
@@ -63,6 +63,8 @@ async function addNew() {
 	tags : [],
 	proj : []
 	};
+
+	if (method === 'PUT') res.id = parseInt(document.getElementById('res_id').innerText);
 
 	let tempSet = new Set();
 	for (let t of document.getElementsByClassName('tag1')) {
@@ -91,7 +93,7 @@ async function addNew() {
 	}
 
 	let response = await fetch('/api/data', {
-		method: 'POST',
+		method: method,
 		body: JSON.stringify(res),
 		headers: { 'Content-type': 'application/json' }
 	});
