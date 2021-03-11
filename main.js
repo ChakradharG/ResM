@@ -12,8 +12,8 @@ const PORT = '5500';
 app.use('/', express.static('Frontend/'));
 app.use('/Assets', express.static('Assets/'));
 app.use('/Add', express.static('Frontend/Add/'));
-app.use('/Edit', express.static('Frontend/Edit/'));
 app.use(express.json());
+app.set('view engine', 'ejs');
 
 
 function addCustomStyle(str, title) {
@@ -52,7 +52,7 @@ function addCustomStyle(str, title) {
 		host : process.env.DB_HOST,
 		user : process.env.DB_USER,
 		password : process.env.DB_PASS,
-		database : 'ResM'
+		database : 'db2'
 	});
 
 	app.get('/Local_Resources/:name', (req, res) => {
@@ -110,6 +110,52 @@ function addCustomStyle(str, title) {
 		};
 
 		try {
+			let [ result, fields ] = await db.query('INSERT INTO resources SET ?', resource);
+
+			for (let tag of req.body.tags) {
+				await db.query(`INSERT INTO res2tag_map VALUE(${result.insertId}, ${tag.id});`);
+			}
+
+			for (let pro of req.body.proj) {
+				await db.query(`INSERT INTO res2pro_map VALUE(${result.insertId}, ${pro.id});`);
+			}
+
+			res.status(200).end();
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
+	app.get('/Edit/:id', async (req, res) => {
+		try {
+			let [ [ resource ], fields ] = await db.query(`SELECT * FROM resources WHERE id = ${req.params.id};`);
+			if (resource === undefined) throw ({error: 'Resource with that ID does not exist'});
+			resource.tags = [];
+			resource.proj = [];
+
+			let [ subQueryRes1, field1 ] = await db.query(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id WHERE res2tag_map.res_id = ${resource.id};`);
+			let [ subQueryRes2, field2 ] = await db.query(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id WHERE res2pro_map.res_id = ${resource.id};`);
+
+			subQueryRes1.forEach(t => resource.tags.push(t));
+			subQueryRes2.forEach(p => resource.proj.push(p));
+
+			res.render(`${__dirname}/Frontend/Add/edit`, resource);
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
+	app.put('/api/data', async (req, res) => {
+		let resource = {
+			id: req.body.id,
+			name: req.body.name,
+			link: req.body.link,
+			cont: req.body.cont,
+		};
+
+		try {
+			await db.query(`DELETE FROM resources WHERE id = ${resource.id}`);
+
 			let [ result, fields ] = await db.query('INSERT INTO resources SET ?', resource);
 
 			for (let tag of req.body.tags) {
