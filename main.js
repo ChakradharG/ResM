@@ -9,6 +9,12 @@ const __dirname = path.resolve();
 const app = express();
 const PORT = '5500';
 
+app.use('/', express.static('Frontend/'));
+app.use('/Assets', express.static('Assets/'));
+app.use('/Add', express.static('Frontend/Add/'));
+app.use('/Edit', express.static('Frontend/Edit/'));
+app.use(express.json());
+
 
 function addCustomStyle(str, title) {
 	str = str.replace(/</g, '&lt;');
@@ -49,12 +55,6 @@ function addCustomStyle(str, title) {
 		database : 'ResM'
 	});
 
-	app.use('/', express.static('Frontend/'));
-	app.use('/Assets', express.static('Assets/'));
-	app.use('/Add', express.static('Frontend/Add/'));
-	app.use('/Edit', express.static('Frontend/Edit/'));
-	app.use(express.json());
-
 	app.get('/Local_Resources/:name', (req, res) => {
 		const { name } = req.params;
 		let fileName = __dirname +`/Local_Resources/${name}`;
@@ -82,8 +82,8 @@ function addCustomStyle(str, title) {
 			elem.tags = [];
 			elem.proj = [];
 
-			let [ subQueryRes1, field1 ] = await db.query(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id where res2tag_map.res_id = ${elem.id};`);
-			let [ subQueryRes2, field2 ] = await db.query(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id where res2pro_map.res_id = ${elem.id};`);
+			let [ subQueryRes1, field1 ] = await db.query(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id WHERE res2tag_map.res_id = ${elem.id};`);
+			let [ subQueryRes2, field2 ] = await db.query(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id WHERE res2pro_map.res_id = ${elem.id};`);
 			
 			subQueryRes1.forEach(t => elem.tags.push(t));
 			subQueryRes2.forEach(p => elem.proj.push(p));
@@ -125,7 +125,6 @@ function addCustomStyle(str, title) {
 			res.status(400).send(err);
 		}
 	});
-	
 
 })();
 
