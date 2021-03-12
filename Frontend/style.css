@@ -158,3 +158,12 @@ code {
 	padding: 2px 5px;
 	border-radius: 5px;
 }
+
+.code {
+	background-color: rgba(25, 25, 25, 0.75);
+	font-size: 0.9rem;
+	font-family: 'cascadia code';
+	color: rgb(230, 230, 230);
+	padding: 2px 5px;
+	border-radius: 5px;
+}
