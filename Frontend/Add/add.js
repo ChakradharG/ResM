@@ -57,9 +57,10 @@ inp2.addEventListener('keyup', (event) => {
 
 async function sendToServer(method) {
 	let res = {
-	name : document.getElementById('title').value || null,
+	name : document.getElementById('title').value.replace(/</g, '&lt;') || null,
 	link : document.getElementById('link').value.replace(/ /g, '%20') || null,
-	cont : document.getElementById('content').value || null,
+	cont : document.getElementById('content').value.replace(/<(?!(\/?)(pre( +class ?= ?("|')code("|'))?|code)\s*>)/g, '&lt;') || null,
+	// Replacing < with &lt; everywhere except pre (with or without class="code" attribute) and code tags in content
 	tags : [],
 	proj : []
 	};

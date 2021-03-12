@@ -15,11 +15,11 @@
 		<div id="results">
 			<div class="card">
 				<div class="title-wrapper">
-					<input type="text" class="add" id="title" maxlength="60" placeholder="Name (60 Characters Only)" value="<%= name %>">
+					<input type="text" class="add" id="title" maxlength="60" placeholder="Name (60 Characters Only)" value="<%= name.replace(/\&lt;/g, '<') %>">
 				</div>
-				<input type="text" class="add" id="link" maxlength="300" placeholder="Link (300 Characters Only)" value="<%= link %>">
+				<input type="text" class="add" id="link" maxlength="300" placeholder="Link (300 Characters Only)" value="<%= link?.replace(/%20/g, ' ') %>">
 				<div class="cont">
-					<textarea class="add" id="content" rows="7" warp="soft" maxlength="1000" placeholder="Content (1000 Characters Only)"><%= cont %></textarea>
+					<textarea class="add" id="content" rows="7" warp="soft" maxlength="1000" placeholder="Content (1000 Characters Only)"><%= cont?.replace(/\&lt;/g, '<') %></textarea>
 				</div>
 				
 				<div class="outer-wrapper">
