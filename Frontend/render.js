@@ -125,5 +125,6 @@ function processInp() {
 	if (inp === '') return;
 	if (inp.startsWith('~:tag:')) tagSearch(inp.slice(6,));
 	else if (inp.startsWith('~:pro:')) proSearch(inp.slice(6,));
+	else if (inp.startsWith('~:all:')) Search('');
 	else Search(inp);
 }
