@@ -9,13 +9,14 @@ This is an all-in-one resource manager where you can store links to webpages, co
 * Execute `npm install`
 * `cd ResM/Database_Backup` and execute `mysql -u root -p < ResM-Blank.sql` (where root is your MySQL username) to setup a blank database and its schema
 * Edit `.env-sample` file and replace the placeholders with your MySQL server hostname, username and password
+* You may change the port variable if you want to
 * Rename `.env-sample` to `.env`
 
 <br>
 
 ## How to Use
 * Execute `npm run start` to start the backend server
-* Go to `localhost:5500` and start adding resources
+* Go to `localhost:` followed by the port number (the default is 5500) and start adding resources
 * You can add tags and project tags to a resource in addition to a name, link and content/description
 * The project tags are special tags that you can use to link resources to your projects. Clicking on a project tag redirects to the project url (provided you have added a url to that project tag)
 * You may add a &lt;pre> block in the content section of a resource to display it as is, i.e with the original formatting
