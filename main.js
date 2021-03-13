@@ -11,7 +11,7 @@ const PORT = process.env.PORT;
 
 app.use('/', express.static('Frontend/'));
 app.use('/Assets', express.static('Assets/'));
-app.use('/Add', express.static('Frontend/Add/'));
+app.use('/Ancillary', express.static('Frontend/Ancillary/'));
 app.use(express.json());
 app.set('view engine', 'ejs');
 
@@ -139,7 +139,7 @@ function addCustomStyle(str, title) {
 			subQueryRes1.forEach(t => resource.tags.push(t));
 			subQueryRes2.forEach(p => resource.proj.push(p));
 
-			res.render(`${__dirname}/Frontend/Add/edit`, resource);
+			res.render(`${__dirname}/Frontend/Ancillary/edit`, resource);
 		} catch (err) {
 			res.status(400).send(err);
 		}
