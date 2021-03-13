@@ -52,7 +52,7 @@ function addCustomStyle(str, title) {
 		host : process.env.DB_HOST,
 		user : process.env.DB_USER,
 		password : process.env.DB_PASS,
-		database : 'db2'
+		database : process.env.DB
 	});
 
 	app.get('/Local_Resources/:name', (req, res) => {
