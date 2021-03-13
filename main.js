@@ -129,7 +129,7 @@ function addCustomStyle(str, title) {
 	app.get('/Edit/:id', async (req, res) => {
 		try {
 			let [ [ resource ], fields ] = await db.query(`SELECT * FROM resources WHERE id = ${req.params.id};`);
-			if (resource === undefined) throw ({error: 'Resource with that ID does not exist'});
+			if (resource === undefined) throw ('Resource with that ID does not exist');
 			resource.tags = [];
 			resource.proj = [];
 
