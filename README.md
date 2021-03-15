@@ -5,7 +5,8 @@ This is an all-in-one resource manager where you can store links to webpages, co
 
 ## Getting Started
 * Install MySQL (v8 or newer) and make sure that MySQL server is running in the background 
-* Clone this repository (main branch)
+* Clone this repository
+* `cd ResM`
 * Execute `npm install`
 * `cd ResM/Database_Backup` and execute `mysql -u root -p < ResM-Blank.sql` (where root is your MySQL username) to setup a blank database and its schema
 * Edit `.env-sample` file and replace the placeholders with your MySQL server hostname, username and password
