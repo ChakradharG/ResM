@@ -42,8 +42,8 @@
 					<datalist id="projects">
 					</datalist>
 
-					<input class="form-btn" title="Save" type="button" value="✔" onclick="sendToServer('PUT')">
-					<input class="form-btn" title="Cancel" type="button" value="✖" onclick="cancel()">
+					<button class="form-btn" title="Save" onclick="sendToServer('PUT')"><img src="/Assets/save.svg" alt="save button"></button>
+					<button class="form-btn" title="Cancel" onclick="cancel()"><img src="/Assets/cancel.svg" alt="cancel button"></button>
 				</div>
 			</div>
 			<div id="res_id" style="opacity:0%"><%=id%></div>
