@@ -1,11 +1,23 @@
 const resultsDiv = document.getElementById('results');
 const searchBox = document.getElementById('search');
 let data = null;
+let Tags = null;
+let Proj = null;
 
 
 (async () => {
 	const response = await fetch('/api/data', {method: 'GET'});
 	data = await response.json();
+})();
+
+(async () => {
+	const response = await fetch('/api/tags', {method: 'GET'});
+	Tags = await response.json();
+})();
+
+(async () => {
+	const response = await fetch('/api/proj', {method: 'GET'});
+	Proj = await response.json();
 })();
 
 searchBox.addEventListener('keyup', (event) => {
@@ -45,7 +57,7 @@ function appendCard(d) {
 	for (let t of d.tags) {
 		let tElem = newElem('a', 'tag1', t.name);
 		tElem.onclick = () => {
-			searchBox.value = `~:tag:${t.name}`;
+			searchBox.value = `~:hastag:${t.name}`;
 			processInp();
 		}
 		wrapper.appendChild(tElem);
@@ -72,6 +84,57 @@ function appendCard(d) {
 	editBtn.title = 'Edit This Card';
 	editBtn.onclick = () => {
 		window.location.href = `/Edit/${d.id}`
+	}
+	outer.appendChild(editBtn);
+}
+
+function appendTagCard(t) {
+	let card = newElem('div', 'card');
+	card.style.maxHeight = '59px';
+	resultsDiv.appendChild(card);
+
+	let title = newElem('div', 'title-wrapper', t.name);
+	title.onclick = () => {
+		let tempCard = title.parentElement;
+		tempCard.style.maxHeight = (tempCard.style.maxHeight === '59px') ? (tempCard.scrollHeight + 'px') : '59px';
+	}
+	card.appendChild(title);
+
+	let outer = newElem('div', 'outer-wrapper');
+	card.appendChild(outer);
+	let wrapper = newElem('div', 'wrapper');
+	outer.appendChild(wrapper);
+
+	let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
+	editBtn.title = 'Edit This Tag';
+	editBtn.onclick = () => {
+		window.location.href = `/Edit/Tag/${t.id}`
+	}
+	outer.appendChild(editBtn);
+}
+
+function appendProCard(p) {
+	let card = newElem('div', 'card');
+	card.style.maxHeight = '59px';
+	resultsDiv.appendChild(card);
+
+	let link = (p.link === null) ? `` : `href=${p.link}`;
+	let title = newElem('div', 'title-wrapper', `<a ${link} target="_blank">${p.name}</a>`);
+	title.onclick = () => {
+		let tempCard = title.parentElement;
+		tempCard.style.maxHeight = (tempCard.style.maxHeight === '59px') ? (tempCard.scrollHeight + 'px') : '59px';
+	}
+	card.appendChild(title);
+
+	let outer = newElem('div', 'outer-wrapper');
+	card.appendChild(outer);
+	let wrapper = newElem('div', 'wrapper');
+	outer.appendChild(wrapper);
+
+	let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
+	editBtn.title = 'Edit This Project Tag';
+	editBtn.onclick = () => {
+		window.location.href = `/Edit/Pro/${p.id}`
 	}
 	outer.appendChild(editBtn);
 }
@@ -112,6 +175,20 @@ function proSearch(inp) {
 	}
 }
 
+function getFromTags(inp) {
+	searchTerm = strToRegEx(inp);
+	for (let t of Tags) {
+		if (searchTerm.test(t.name)) appendTagCard(t);
+	}
+}
+
+function getFromPros(inp) {
+	searchTerm = strToRegEx(inp);
+	for (let p of Proj) {
+		if (searchTerm.test(p.name)) appendProCard(p);
+	}
+}
+
 function Search(inp) {
 	searchTerm = strToRegEx(inp);
 	for (let d of data) {
@@ -124,8 +201,10 @@ function processInp() {
 	let inp = searchBox.value;
 
 	if (inp === '') return;
-	if (inp.startsWith('~:tag:')) tagSearch(inp.slice(6,));
-	else if (inp.startsWith('~:pro:')) proSearch(inp.slice(6,));
-	else if (inp.startsWith('~:all:')) Search('');
+	else if (/^(~:((hastag)|(ht)):)/i.test(inp)) tagSearch(inp.replace(/~:\w*:/, ''));
+	else if (/^(~:((haspro)|(hp)):)/i.test(inp)) proSearch(inp.replace(/~:\w*:/, ''));
+	else if (/^(~:t(ags)?:)/i.test(inp)) getFromTags(inp.replace(/~:\w*:/, ''));
+	else if (/^(~:p(ros)?:)/i.test(inp)) getFromPros(inp.replace(/~:\w*:/, ''));
+	else if (/^(~:a(ll)?:)/i.test(inp)) Search('');
 	else Search(inp);
 }
