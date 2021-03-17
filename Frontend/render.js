@@ -30,7 +30,9 @@ searchBox.addEventListener('keyup', (event) => {
 function newElem(elemType, clsName, inhtml) {
 	let element = document.createElement(elemType);
 	element.className = clsName;
-	if (inhtml) element.innerHTML = inhtml;
+	if (inhtml) {
+		element.innerHTML = inhtml;
+	}
 	return element;
 }
 
