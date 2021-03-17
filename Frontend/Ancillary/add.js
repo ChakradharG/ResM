@@ -107,7 +107,6 @@ async function sendToServer(method) {
 	}
 }
 
-
 function cancel() {
 	window.location.href = '/';
 }
