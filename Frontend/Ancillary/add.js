@@ -29,7 +29,9 @@ let Proj = null;
 function newElem(elemType, clsName, inhtml) {
 	let element = document.createElement(elemType);
 	element.className = clsName;
-	if (inhtml) element.innerHTML = inhtml;
+	if (inhtml) {
+		element.innerHTML = inhtml;
+	}
 	return element;
 }
 
@@ -65,18 +67,27 @@ async function sendToServer(method) {
 	proj : []
 	};
 
-	if (method === 'PUT') res.id = parseInt(document.getElementById('res_id').innerText);
+	if (method === 'PUT') {
+		res.id = parseInt(document.getElementById('res_id').innerText);
+	}
 
 	let tempSet = new Set();
 	for (let t of document.getElementsByClassName('tag1')) {
 		if (tempSet.has(t.innerText)) continue;
 
 		tempSet.add(t.innerText);
+		let isNew = true;
 		for (let i of Tags) {
 			if (t.innerText === i.name) {
 				res.tags.push(i);
+				isNew = false;
 				break;
 			}
+		}
+
+		if (isNew) {
+			let redirect = confirm(`Tag '${t.innerText}' is not in the database, would you like to add it?\n(Note: Data entered on the current page will be lost)`);
+			return { redirect: redirect, redTo: '/Ancillary/addtag.html'};
 		}
 	}
 
@@ -85,11 +96,18 @@ async function sendToServer(method) {
 		if (tempSet.has(p.innerText)) continue;
 
 		tempSet.add(p.innerText);
+		let isNew = true;
 		for (let i of Proj) {
 			if (p.innerText === i.name) {
 				res.proj.push(i);
+				isNew = false;
 				break;
 			}
+		}
+
+		if (isNew) {
+			let redirect = confirm(`Project Tag '${p.innerText}' is not in the database, would you like to add it?\n(Note: Data entered on the current page will be lost)`);
+			return { redirect: redirect, redTo: '/Ancillary/addpro.html'};
 		}
 	}
 
@@ -104,6 +122,13 @@ async function sendToServer(method) {
 	} else {
 		let msg = await response.json();
 		alert(msg.message);
+	}
+}
+
+async function STSWrapper(method) {
+	let resp = await sendToServer(method);
+	if (resp?.redirect) {
+		window.location.href = resp.redTo;
 	}
 }
 
