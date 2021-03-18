@@ -158,7 +158,7 @@ textarea {
 }
 
 .dropdown {
-	padding: 0px 20px;
+	padding-right: 20px;
 	margin-top: 20px;
 	border-radius: 0px;
 	background: none;
@@ -184,5 +184,5 @@ textarea {
 
 #bottom {
 	display: flex;
-	padding-right: 20px;
+	padding: 0px 20px;
 }
