@@ -10,15 +10,15 @@ const app = express();
 const PORT = process.env.PORT;
 
 app.use('/', express.static('Frontend/'));
-app.use('/Assets', express.static('Assets/'));
-app.use('/Ancillary', express.static('Frontend/Ancillary/'));
+app.use('/Assets/', express.static('Assets/'));
+app.use('/Ancillary/', express.static('Frontend/Ancillary/'));
 app.use(express.json());
 app.set('view engine', 'ejs');
 
 
 function addCustomStyle(str, title) {
 	str = str.replace(/</g, '&lt;');
-	return(`<!DOCTYPE HTML>
+	return (`<!DOCTYPE HTML>
 	<html>
 	<head>
 	<title>${title}</title>
@@ -106,7 +106,7 @@ function addCustomStyle(str, title) {
 		let resource = {
 			name: req.body.name,
 			link: req.body.link,
-			cont: req.body.cont,
+			cont: req.body.cont
 		};
 
 		try {
@@ -126,7 +126,34 @@ function addCustomStyle(str, title) {
 		}
 	});
 
-	app.get('/Edit/:id', async (req, res) => {
+	app.post('/api/tags', async (req, res) => {
+		let tag = { name: req.body.name };
+
+		try {
+			await db.query('INSERT INTO tags SET ?', tag);
+
+			res.status(200).end();
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
+	app.post('/api/proj', async (req, res) => {
+		let pro = {
+			name: req.body.name,
+			link: req.body.link
+		};
+
+		try {
+			await db.query('INSERT INTO projects SET ?', pro);
+
+			res.status(200).end();
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
+	app.get('/edit/:id', async (req, res) => {
 		try {
 			let [ [ resource ], fields ] = await db.query(`SELECT * FROM resources WHERE id = ${req.params.id};`);
 			if (resource === undefined) throw ('Resource with that ID does not exist');
@@ -145,12 +172,65 @@ function addCustomStyle(str, title) {
 		}
 	});
 
+	app.get('/edit/tag/:id', async (req, res) => {
+		try {
+			let [ [ tag ], fields ] = await db.query(`SELECT * FROM tags WHERE id = ${req.params.id};`);
+			if (tag === undefined) throw ('Tag with that ID does not exist');
+
+			res.render(`${__dirname}/Frontend/Ancillary/edittag`, tag);
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
+	app.get('/edit/pro/:id', async (req, res) => {
+		try {
+			let [ [ pro ], fields ] = await db.query(`SELECT * FROM projects WHERE id = ${req.params.id};`);
+			if (pro === undefined) throw ('Project Tag with that ID does not exist');
+
+			res.render(`${__dirname}/Frontend/Ancillary/editpro`, pro);
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
+	app.put('/api/tags', async (req, res) => {
+		let tag = {
+			id: req.body.id,
+			name: req.body.name
+		};
+
+		try {
+			await db.query(`UPDATE tags SET name = '${tag.name}' WHERE id = ${tag.id};`);
+
+			res.status(200).end();
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
+	app.put('/api/proj', async (req, res) => {
+		let pro = {
+			id: req.body.id,
+			name: req.body.name,
+			link: req.body.link
+		};
+
+		try {
+			await db.query(`UPDATE projects SET name = '${pro.name}', link = '${pro.link}' WHERE id = ${pro.id};`);
+
+			res.status(200).end();
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
 	app.put('/api/data', async (req, res) => {
 		let resource = {
 			id: req.body.id,
 			name: req.body.name,
 			link: req.body.link,
-			cont: req.body.cont,
+			cont: req.body.cont
 		};
 
 		try {

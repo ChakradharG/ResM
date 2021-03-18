@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script defer src="/Ancillary/add2.js"></script>
+	<link rel="stylesheet" href="/Ancillary/add2.css">
+	<link rel="icon" href="/Assets/favicon.ico">
+	<title>Edit Project Tag</title>
+</head>
+
+<body>
+	<div id="main">
+		<div id="results">
+			<div class="card">
+				<div class="title-wrapper">
+					<input type="text" class="add" id="title" maxlength="30" placeholder="Name (30 Characters Only)" value="<%= name.replace(/\&lt;/g, '<') %>">
+				</div>
+				<input type="text" class="add" id="link" maxlength="300" placeholder="Link (300 Characters Only)" value="<%= link?.replace(/%20/g, ' ') %>">
+
+				<div id="bottom">
+					<button class="form-btn" title="Save" onclick="sendProToServer('PUT')"><img src="/Assets/save.svg" alt="save button"></button>
+					<button class="form-btn" title="Cancel" onclick="cancel()"><img src="/Assets/cancel.svg" alt="cancel button"></button>
+				</div>
+			</div>
+			<div id="pro_id" style="opacity:0%"><%=id%></div>
+		</div>
+	</div>
+</body>
+
+</html>
