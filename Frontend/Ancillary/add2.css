@@ -1,0 +1,109 @@
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: 'Trebuchet MS';
+	color: black;
+	font-size: 16px;
+	border-radius: 25px;
+}
+
+body {
+	background: linear-gradient(to right bottom, rgb(17, 221, 160), rgb(152, 15, 177));
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center;
+	min-width: 620px;
+	height: 100vh;
+	min-height: 720px;
+	text-align: center;
+	display: flex;
+}
+
+body::-webkit-scrollbar {
+	width: 0px;
+	height: 7px;
+}
+
+body::-webkit-scrollbar-thumb {
+	background-color: rgba(25, 25, 25, 0.75);
+	border-radius: 3px;
+}
+
+#main {
+	background: linear-gradient(to right bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.25));
+	backdrop-filter: blur(25px);
+	padding: 30px 0px;
+	margin: auto;
+	min-height: 690px;
+	height: 96vh;
+	min-width: 600px;
+	width: 75%;
+	max-width: 700px;
+}
+
+#results {
+	margin: 30px;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 67px;
+	bottom: 0px;
+	overflow: auto;
+	border-radius: 0px;
+}
+
+#results::-webkit-scrollbar {
+	width: 0px;
+}
+
+.card {
+	background: linear-gradient( to right bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+	margin: 20px 0px;
+	padding-bottom: 20px;
+	overflow: hidden;
+	transition: 0.25s ease;
+	text-align: left;
+}
+
+.title-wrapper {
+	padding: 20px;
+}
+
+.add {
+	background: none;
+	border: none;
+	outline: none;
+	width: 100%;
+}
+
+#title {
+	text-align: center;
+}
+
+#link {
+	padding: 0px 20px 20px 20px;
+	text-align: center;
+}
+
+.form-btn {
+	margin: auto;
+	margin-top: 14px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	outline: none;
+	margin-left: auto;
+	width: 25px;
+	height: 25px;
+	transition: 0.25s ease;
+}
+
+.form-btn:hover {
+	transform: rotate(90deg);
+}
+
+#bottom {
+	display: flex;
+	padding: 0px 20px;
+}
