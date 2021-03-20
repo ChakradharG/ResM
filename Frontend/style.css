@@ -128,6 +128,7 @@ button:hover {
 	margin-bottom: 20px;
 	padding: 0px 20px;
 	text-align: justify;
+	overflow-wrap: break-word;
 }
 
 .outer-wrapper {
