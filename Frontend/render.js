@@ -1,5 +1,7 @@
-const resultsDiv = document.getElementById('results');
+const main = document.getElementById('main');
 const searchBox = document.getElementById('search');
+const menu = document.getElementById('menu');
+const resultsDiv = document.getElementById('results');
 let data = null;
 let Tags = null;
 let Proj = null;
@@ -34,6 +36,22 @@ function newElem(elemType, clsName, inhtml) {
 		element.innerHTML = inhtml;
 	}
 	return element;
+}
+
+function dispOptions() {
+	if (resultsDiv.style.top === '67px') {
+		resultsDiv.style.top = '194px';
+		menu.style.height = '117px';
+		setTimeout(() => {
+			menu.innerHTML = `<a href="/Ancillary/add.html">Resource Card</a>
+			<a href="/Ancillary/addtag.html">Tag</a>
+			<a href="/Ancillary/addpro.html">Project Tag</a>`;
+		}, 220);
+	} else {
+		resultsDiv.style.top = '67px';
+		menu.innerHTML = '';
+		menu.style.height = '0px';
+	}
 }
 
 function appendCard(d) {

@@ -83,6 +83,18 @@ button:hover {
 	margin: 1px;
 }
 
+#menu {
+	background: linear-gradient( to right bottom, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.3));
+	width: 65%;
+	margin: auto;
+	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	padding: 0px 20px;
+	transition: 0.25s ease;
+}
+
 #results {
 	margin: 30px;
 	position: absolute;
@@ -92,6 +104,7 @@ button:hover {
 	bottom: 0px;
 	overflow: auto;
 	border-radius: 0px;
+	transition: 0.25s ease;
 }
 
 #results::-webkit-scrollbar {
