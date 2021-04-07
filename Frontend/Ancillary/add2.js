@@ -15,7 +15,7 @@ async function sendTagToServer(method) {
 		window.location.href = '/';
 	} else {
 		let msg = await response.json();
-		alert(msg.message);
+		alert(msg.code);
 	}
 }
 
@@ -39,7 +39,7 @@ async function sendProToServer(method) {
 		window.location.href = '/';
 	} else {
 		let msg = await response.json();
-		alert(msg.message);
+		alert(msg.code);
 	}
 }
 

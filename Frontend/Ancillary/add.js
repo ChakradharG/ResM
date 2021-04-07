@@ -121,7 +121,7 @@ async function sendToServer(method) {
 		window.location.href = '/';
 	} else {
 		let msg = await response.json();
-		alert(msg.message);
+		alert(msg.code);
 	}
 }
 
