@@ -4,13 +4,11 @@ This is an all-in-one resource manager where you can store links to webpages, co
 <br>
 
 ## Getting Started
-* Install MySQL (v8 or newer) and make sure that MySQL server is running in the background 
 * Clone this repository
 * `cd ResM`
 * Execute `npm install`
-* `cd ResM/Database_Backup` and execute `mysql -u root -p < ResM-Blank.sql` (where root is your MySQL username) to setup a blank database and its schema
-* Edit `.env-sample` file and replace the placeholders with your MySQL server hostname, username and password
-* You may change the port variable if you want to
+* `cd ResM/Database` and execute either `node ResM-Blank.js` or `sqlite3 ResM.db < ResM-Blank.sql` (requires the [SQLite command-line tools](https://sqlite.org/download.html) to work) to setup a blank database and its schema
+* You may change the port variable in the `.env-sample` file if you want to
 * Rename `.env-sample` to `.env`
 
 <br>
@@ -30,5 +28,5 @@ This is an all-in-one resource manager where you can store links to webpages, co
 * To list all tags, type `~:tags:` (or `~:t:`) into the search bar
 * To list all project tags, type `~:pros:` (or `~:p:`) into the search bar
 * You can also add local files (those that can be opened by a browser) to ResM. In order to do so, copy the desired file into the Local_Resources directory, then create a resource card for the file and set its link to `/Local_Resources/` followed by the file name, i.e `/Local_Resources/foobar.txt` for a file named foobar.txt
-* To get a backup of your database, run the file `Generate ResM-Dump.bat` (for Windows) or execute the command `mysqldump -u root -p --databases ResM > ResM-Dump.sql`
-* To restore your database from a backup file, copy the `ResM-Dump.sql` into the Database_Backup directory and run the file `Restore ResM-Dump.bat` or execute the command `mysql -u root -p < ResM-Dump.sql`
+* To get a backup of your database, execute `sqlite3 ResM.db .dump > ResM-Dump.sql`
+* To restore your database from a backup file, copy the `ResM-Dump.sql` file into the Database directory and execute `sqlite3 ResM.db < ResM-Dump.sql`
