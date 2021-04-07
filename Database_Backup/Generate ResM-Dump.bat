@@ -1,1 +1,0 @@
-mysqldump -u root -p --databases ResM > ResM-Dump.sql

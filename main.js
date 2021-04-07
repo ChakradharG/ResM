@@ -50,7 +50,7 @@ function addCustomStyle(str, title) {
 
 (async () => {
 	const db = await open({
-		filename: process.env.DB,
+		filename: `${__dirname}/Database/${process.env.DB}`,
 		driver: sqlite3.Database
 	});
 	await db.run(`PRAGMA foreign_keys = ON`);	// To enable SQLite Foreign key constraints
