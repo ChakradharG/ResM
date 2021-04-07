@@ -67,7 +67,7 @@ function appendCard(d) {
 	}
 	card.appendChild(title);
 	
-	if (d.cont?.length != 0)
+	if (d.cont)
 		card.appendChild(newElem('div', 'cont', d.cont));
 
 	let outer = newElem('div', 'outer-wrapper');
