@@ -1,5 +1,6 @@
 import express from 'express';
-import mysql from 'mysql2/promise';
+import sqlite3 from 'sqlite3';
+import { open } from 'sqlite';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
@@ -48,12 +49,11 @@ function addCustomStyle(str, title) {
 }
 
 (async () => {
-	const db = await mysql.createConnection({
-		host : process.env.DB_HOST,
-		user : process.env.DB_USER,
-		password : process.env.DB_PASS,
-		database : process.env.DB
+	const db = await open({
+		filename: process.env.DB,
+		driver: sqlite3.Database
 	});
+	await db.run(`PRAGMA foreign_keys = ON`);
 
 	app.get('/Local_Resources/:name', (req, res) => {
 		const { name } = req.params;
@@ -76,15 +76,15 @@ function addCustomStyle(str, title) {
 	});
 
 	app.get('/api/data', async (req, res) => {
-		let [ data, fields ] = await db.query('SELECT * FROM resources;');
+		let data = await db.all(`SELECT * FROM resources`);
 
 		for (let elem of data) {
 			elem.tags = [];
 			elem.proj = [];
 
-			let [ subQueryRes1, field1 ] = await db.query(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id WHERE res2tag_map.res_id = ${elem.id};`);
-			let [ subQueryRes2, field2 ] = await db.query(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id WHERE res2pro_map.res_id = ${elem.id};`);
-			
+			let subQueryRes1 = await db.all(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id WHERE res2tag_map.res_id = ?`, elem.id);
+			let subQueryRes2 = await db.all(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id WHERE res2pro_map.res_id = ?`, elem.id);
+
 			subQueryRes1.forEach(t => elem.tags.push(t));
 			subQueryRes2.forEach(p => elem.proj.push(p));
 		}
@@ -93,12 +93,12 @@ function addCustomStyle(str, title) {
 	});
 
 	app.get('/api/tags', async (req, res) => {
-		let [ tags, fields ] = await db.query('SELECT * FROM tags;');
+		let tags = await db.all(`SELECT * FROM tags`);
 		res.send(tags);
 	});
 
 	app.get('/api/proj', async (req, res) => {
-		let [ proj, fields ] = await db.query('SELECT * FROM projects;');
+		let proj = await db.all(`SELECT * FROM projects`);
 		res.send(proj);
 	});
 
@@ -110,14 +110,14 @@ function addCustomStyle(str, title) {
 		};
 
 		try {
-			let [ result, fields ] = await db.query('INSERT INTO resources SET ?', resource);
+			let result = await db.run(`INSERT INTO resources('name', 'link', 'cont') VALUES(?, ?, ?)`, resource.name, resource.link, resource.cont);
 
 			for (let tag of req.body.tags) {
-				await db.query(`INSERT INTO res2tag_map VALUE(${result.insertId}, ${tag.id});`);
+				await db.run(`INSERT INTO res2tag_map VALUES(?, ?)`, result.lastID, tag.id);
 			}
 
 			for (let pro of req.body.proj) {
-				await db.query(`INSERT INTO res2pro_map VALUE(${result.insertId}, ${pro.id});`);
+				await db.run(`INSERT INTO res2pro_map VALUES(?, ?)`, result.lastID, pro.id);
 			}
 
 			res.status(200).end();
@@ -130,7 +130,7 @@ function addCustomStyle(str, title) {
 		let tag = { name: req.body.name };
 
 		try {
-			await db.query('INSERT INTO tags SET ?', tag);
+			await db.run(`INSERT INTO tags('name') VALUES(?)`, tag.name);
 
 			res.status(200).end();
 		} catch (err) {
@@ -145,7 +145,7 @@ function addCustomStyle(str, title) {
 		};
 
 		try {
-			await db.query('INSERT INTO projects SET ?', pro);
+			await db.run(`INSERT INTO projects('name', 'link') VALUES(?, ?)`, pro.name, pro.link);
 
 			res.status(200).end();
 		} catch (err) {
@@ -155,13 +155,13 @@ function addCustomStyle(str, title) {
 
 	app.get('/edit/:id', async (req, res) => {
 		try {
-			let [ [ resource ], fields ] = await db.query(`SELECT * FROM resources WHERE id = ${req.params.id};`);
+			let resource = await db.get(`SELECT * FROM resources WHERE id = ?`, req.params.id);
 			if (resource === undefined) throw ('Resource with that ID does not exist');
 			resource.tags = [];
 			resource.proj = [];
 
-			let [ subQueryRes1, field1 ] = await db.query(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id WHERE res2tag_map.res_id = ${resource.id};`);
-			let [ subQueryRes2, field2 ] = await db.query(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id WHERE res2pro_map.res_id = ${resource.id};`);
+			let subQueryRes1 = await db.all(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id WHERE res2tag_map.res_id = ?`, resource.id);
+			let subQueryRes2 = await db.all(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id WHERE res2pro_map.res_id = ?`, resource.id);
 
 			subQueryRes1.forEach(t => resource.tags.push(t));
 			subQueryRes2.forEach(p => resource.proj.push(p));
@@ -174,7 +174,7 @@ function addCustomStyle(str, title) {
 
 	app.get('/edit/tag/:id', async (req, res) => {
 		try {
-			let [ [ tag ], fields ] = await db.query(`SELECT * FROM tags WHERE id = ${req.params.id};`);
+			let tag = await db.get(`SELECT * FROM tags WHERE id = ?`, req.params.id);
 			if (tag === undefined) throw ('Tag with that ID does not exist');
 
 			res.render(`${__dirname}/Frontend/Ancillary/edittag`, tag);
@@ -185,7 +185,7 @@ function addCustomStyle(str, title) {
 
 	app.get('/edit/pro/:id', async (req, res) => {
 		try {
-			let [ [ pro ], fields ] = await db.query(`SELECT * FROM projects WHERE id = ${req.params.id};`);
+			let pro = await db.get(`SELECT * FROM projects WHERE id = ?`, req.params.id);
 			if (pro === undefined) throw ('Project Tag with that ID does not exist');
 
 			res.render(`${__dirname}/Frontend/Ancillary/editpro`, pro);
@@ -201,7 +201,7 @@ function addCustomStyle(str, title) {
 		};
 
 		try {
-			await db.query(`UPDATE tags SET name = '${tag.name}' WHERE id = ${tag.id};`);
+			await db.run(`UPDATE tags SET name = ? WHERE id = ?`, tag.name, tag.id);
 
 			res.status(200).end();
 		} catch (err) {
@@ -217,7 +217,7 @@ function addCustomStyle(str, title) {
 		};
 
 		try {
-			await db.query(`UPDATE projects SET name = '${pro.name}', link = '${pro.link}' WHERE id = ${pro.id};`);
+			await db.run(`UPDATE projects SET name = ?, link = ? WHERE id = ?`, pro.name, pro.link, pro.id);
 
 			res.status(200).end();
 		} catch (err) {
@@ -234,16 +234,16 @@ function addCustomStyle(str, title) {
 		};
 
 		try {
-			await db.query(`DELETE FROM resources WHERE id = ${resource.id}`);
+			await db.run(`DELETE FROM resources WHERE id = ?`, resource.id);
 
-			let [ result, fields ] = await db.query('INSERT INTO resources SET ?', resource);
+			await db.run(`INSERT INTO resources VALUES(?, ?, ?, ?)`, resource.id, resource.name, resource.link, resource.cont);
 
 			for (let tag of req.body.tags) {
-				await db.query(`INSERT INTO res2tag_map VALUE(${result.insertId}, ${tag.id});`);
+				await db.run(`INSERT INTO res2tag_map VALUES(?, ?)`, resource.id, tag.id);
 			}
 
 			for (let pro of req.body.proj) {
-				await db.query(`INSERT INTO res2pro_map VALUE(${result.insertId}, ${pro.id});`);
+				await db.run(`INSERT INTO res2pro_map VALUES(?, ?)`, resource.id, pro.id);
 			}
 
 			res.status(200).end();
