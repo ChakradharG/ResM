@@ -8,6 +8,11 @@ This is an all-in-one resource manager where you can store links to webpages, co
 * `cd ResM`
 * Execute `npm install`
 * `cd ResM/Database` and execute either `node ResM-Blank.js` or `sqlite3 ResM.db < ResM-Blank.sql` (requires the [SQLite command-line tools](https://sqlite.org/download.html) to work) to setup a blank database and its schema
+* You can also use the following commands to setup a blank database and its schema
+```
+sqlite3 ResM.db
+.read ResM-Blank.sql
+```
 * You may change the port variable in the `.env-sample` file if you want to
 * Rename `.env-sample` to `.env`
 
@@ -28,5 +33,14 @@ This is an all-in-one resource manager where you can store links to webpages, co
 * To list all tags, type `~:tags:` (or `~:t:`) into the search bar
 * To list all project tags, type `~:pros:` (or `~:p:`) into the search bar
 * You can also add local files (those that can be opened by a browser) to ResM. In order to do so, copy the desired file into the Local_Resources directory, then create a resource card for the file and set its link to `/Local_Resources/` followed by the file name, i.e `/Local_Resources/foobar.txt` for a file named foobar.txt
-* To get a backup of your database, execute `sqlite3 ResM.db .dump > ResM-Dump.sql`
-* To restore your database from a backup file, copy the `ResM-Dump.sql` file into the Database directory and execute `sqlite3 ResM.db < ResM-Dump.sql`
+* To get a backup of your database, execute `sqlite3 ResM.db .dump > ResM-Dump.sql` or the following commands
+```
+sqlite3 ResM.db
+.once ResM-Dump.sql
+.dump
+```
+* To restore your database from a backup file, copy the `ResM-Dump.sql` file into the Database directory and execute `sqlite3 ResM.db < ResM-Dump.sql` or the following commands
+```
+sqlite3 ResM.db
+.read ResM-Dump.sql
+```
