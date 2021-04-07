@@ -53,7 +53,7 @@ function addCustomStyle(str, title) {
 		filename: process.env.DB,
 		driver: sqlite3.Database
 	});
-	await db.run(`PRAGMA foreign_keys = ON`);
+	await db.run(`PRAGMA foreign_keys = ON`);	// To enable SQLite Foreign key constraints
 
 	app.get('/Local_Resources/:name', (req, res) => {
 		const { name } = req.params;
@@ -72,6 +72,47 @@ function addCustomStyle(str, title) {
 			}
 		} else {
 			res.status(404).send(`File '${fileName}' not found`)
+		}
+	});
+
+	app.get('/edit/:id', async (req, res) => {
+		try {
+			let resource = await db.get(`SELECT * FROM resources WHERE id = ?`, req.params.id);
+			if (resource === undefined) throw ('Resource with that ID does not exist');
+			resource.tags = [];
+			resource.proj = [];
+
+			let subQueryRes1 = await db.all(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id WHERE res2tag_map.res_id = ?`, resource.id);
+			let subQueryRes2 = await db.all(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id WHERE res2pro_map.res_id = ?`, resource.id);
+
+			subQueryRes1.forEach(t => resource.tags.push(t));
+			subQueryRes2.forEach(p => resource.proj.push(p));
+
+			res.render(`${__dirname}/Frontend/Ancillary/edit`, resource);
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
+	app.get('/edit/tag/:id', async (req, res) => {
+		try {
+			let tag = await db.get(`SELECT * FROM tags WHERE id = ?`, req.params.id);
+			if (tag === undefined) throw ('Tag with that ID does not exist');
+
+			res.render(`${__dirname}/Frontend/Ancillary/edittag`, tag);
+		} catch (err) {
+			res.status(400).send(err);
+		}
+	});
+
+	app.get('/edit/pro/:id', async (req, res) => {
+		try {
+			let pro = await db.get(`SELECT * FROM projects WHERE id = ?`, req.params.id);
+			if (pro === undefined) throw ('Project Tag with that ID does not exist');
+
+			res.render(`${__dirname}/Frontend/Ancillary/editpro`, pro);
+		} catch (err) {
+			res.status(400).send(err);
 		}
 	});
 
@@ -153,42 +194,28 @@ function addCustomStyle(str, title) {
 		}
 	});
 
-	app.get('/edit/:id', async (req, res) => {
+	app.put('/api/data', async (req, res) => {
+		let resource = {
+			id: req.body.id,
+			name: req.body.name,
+			link: req.body.link,
+			cont: req.body.cont
+		};
+
 		try {
-			let resource = await db.get(`SELECT * FROM resources WHERE id = ?`, req.params.id);
-			if (resource === undefined) throw ('Resource with that ID does not exist');
-			resource.tags = [];
-			resource.proj = [];
+			await db.run(`DELETE FROM resources WHERE id = ?`, resource.id);
 
-			let subQueryRes1 = await db.all(`SELECT * FROM res2tag_map JOIN tags ON res2tag_map.tag_id = tags.id WHERE res2tag_map.res_id = ?`, resource.id);
-			let subQueryRes2 = await db.all(`SELECT * FROM res2pro_map JOIN projects ON res2pro_map.pro_id = projects.id WHERE res2pro_map.res_id = ?`, resource.id);
+			await db.run(`INSERT INTO resources VALUES(?, ?, ?, ?)`, resource.id, resource.name, resource.link, resource.cont);
 
-			subQueryRes1.forEach(t => resource.tags.push(t));
-			subQueryRes2.forEach(p => resource.proj.push(p));
+			for (let tag of req.body.tags) {
+				await db.run(`INSERT INTO res2tag_map VALUES(?, ?)`, resource.id, tag.id);
+			}
 
-			res.render(`${__dirname}/Frontend/Ancillary/edit`, resource);
-		} catch (err) {
-			res.status(400).send(err);
-		}
-	});
+			for (let pro of req.body.proj) {
+				await db.run(`INSERT INTO res2pro_map VALUES(?, ?)`, resource.id, pro.id);
+			}
 
-	app.get('/edit/tag/:id', async (req, res) => {
-		try {
-			let tag = await db.get(`SELECT * FROM tags WHERE id = ?`, req.params.id);
-			if (tag === undefined) throw ('Tag with that ID does not exist');
-
-			res.render(`${__dirname}/Frontend/Ancillary/edittag`, tag);
-		} catch (err) {
-			res.status(400).send(err);
-		}
-	});
-
-	app.get('/edit/pro/:id', async (req, res) => {
-		try {
-			let pro = await db.get(`SELECT * FROM projects WHERE id = ?`, req.params.id);
-			if (pro === undefined) throw ('Project Tag with that ID does not exist');
-
-			res.render(`${__dirname}/Frontend/Ancillary/editpro`, pro);
+			res.status(200).end();
 		} catch (err) {
 			res.status(400).send(err);
 		}
@@ -218,33 +245,6 @@ function addCustomStyle(str, title) {
 
 		try {
 			await db.run(`UPDATE projects SET name = ?, link = ? WHERE id = ?`, pro.name, pro.link, pro.id);
-
-			res.status(200).end();
-		} catch (err) {
-			res.status(400).send(err);
-		}
-	});
-
-	app.put('/api/data', async (req, res) => {
-		let resource = {
-			id: req.body.id,
-			name: req.body.name,
-			link: req.body.link,
-			cont: req.body.cont
-		};
-
-		try {
-			await db.run(`DELETE FROM resources WHERE id = ?`, resource.id);
-
-			await db.run(`INSERT INTO resources VALUES(?, ?, ?, ?)`, resource.id, resource.name, resource.link, resource.cont);
-
-			for (let tag of req.body.tags) {
-				await db.run(`INSERT INTO res2tag_map VALUES(?, ?)`, resource.id, tag.id);
-			}
-
-			for (let pro of req.body.proj) {
-				await db.run(`INSERT INTO res2pro_map VALUES(?, ?)`, resource.id, pro.id);
-			}
 
 			res.status(200).end();
 		} catch (err) {
