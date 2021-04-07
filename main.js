@@ -8,7 +8,7 @@ import path from 'path';
 dotenv.config();
 const __dirname = path.resolve();
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5500;
 
 app.use('/', express.static('Frontend/'));
 app.use('/Assets/', express.static('Assets/'));
