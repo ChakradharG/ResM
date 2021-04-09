@@ -1,12 +1,12 @@
-import express from 'express';
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
-import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
+const express = require('express');
+const sqlite3 = require('sqlite3');
+const { open } = require('sqlite');
+const dotenv = require('dotenv');
+const fs = require('fs');
+// const path = require('path');
 
 dotenv.config();
-const __dirname = path.resolve();
+// const __dirname = path.resolve();
 const app = express();
 const PORT = process.env.PORT || 5500;
 
