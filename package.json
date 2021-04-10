@@ -20,6 +20,7 @@
   "homepage": "https://github.com/ChakradharG/ResM#readme",
   "dependencies": {
     "ejs": "^3.1.6",
+    "ejs-electron": "^2.1.1",
     "sqlite": "^4.0.21",
     "sqlite3": "^5.0.2"
   },
