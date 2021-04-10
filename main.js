@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, globalShortcut } = require('electron');
 const sqlite3 = require('sqlite3');
 const { open } = require('sqlite');
 const fs = require('fs');
@@ -67,12 +67,14 @@ function createWindow() {
 })();
 
 app.whenReady().then(() => {
-	createWindow();
+	globalShortcut.register('Escape', () => {
+		app.quit();
+	});
 
 	app.on('activate', () => {
 		if (BrowserWindow.getAllWindows().length === 0) createWindow();
 	});
-});
+}).then(() => createWindow());
 
 app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') app.quit();
