@@ -22,8 +22,8 @@ contextBridge.exposeInMainWorld('api', {
 	send: (channel, payLoad) => {
 		let validChannels = [
 			'edit-data',
-			'edit-tag',
-			'edit-pro',
+			'edit-tags',
+			'edit-proj',
 			'home',
 			'Local_Resource'
 		];
