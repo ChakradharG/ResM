@@ -8,18 +8,15 @@ let Proj = null;
 
 
 (async () => {
-	const response = await fetch('/api/data', {method: 'GET'});
-	data = await response.json();
+	data = await window.api.invoke('get-data');
 })();
 
 (async () => {
-	const response = await fetch('/api/tags', {method: 'GET'});
-	Tags = await response.json();
+	Tags = await window.api.invoke('get-tags');
 })();
 
 (async () => {
-	const response = await fetch('/api/proj', {method: 'GET'});
-	Proj = await response.json();
+	Proj = await window.api.invoke('get-proj');
 })();
 
 searchBox.addEventListener('keyup', (event) => {
@@ -43,9 +40,9 @@ function dispOptions() {
 		resultsDiv.style.top = '194px';
 		menu.style.height = '117px';
 		setTimeout(() => {
-			menu.innerHTML = `<a href="/Ancillary/add.html">Resource Card</a>
-			<a href="/Ancillary/addtag.html">Tag</a>
-			<a href="/Ancillary/addpro.html">Project Tag</a>`;
+			menu.innerHTML = `<a href="./Ancillary/add.html">Resource Card</a>
+			<a href="./Ancillary/addtag.html">Tag</a>
+			<a href="./Ancillary/addpro.html">Project Tag</a>`;
 		}, 220);
 	} else {
 		resultsDiv.style.top = '67px';
@@ -100,10 +97,10 @@ function appendCard(d) {
 		}
 	}
 
-	let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
+	let editBtn = newElem('button', 'edit-btn', '<img src="../Assets/edit.svg" alt="edit button">');
 	editBtn.title = 'Edit This Card';
 	editBtn.onclick = () => {
-		window.location.href = `/edit/${d.id}`;
+		window.api.send('edit-data', { id: d.id });
 	}
 	outer.appendChild(editBtn);
 }
@@ -125,10 +122,10 @@ function appendTagCard(t) {
 	let wrapper = newElem('div', 'wrapper');
 	outer.appendChild(wrapper);
 
-	let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
+	let editBtn = newElem('button', 'edit-btn', '<img src="../Assets/edit.svg" alt="edit button">');
 	editBtn.title = 'Edit This Tag';
 	editBtn.onclick = () => {
-		window.location.href = `/edit/tag/${t.id}`;
+		window.api.send('edit-tags', { id: t.id });
 	}
 	outer.appendChild(editBtn);
 }
@@ -151,10 +148,10 @@ function appendProCard(p) {
 	let wrapper = newElem('div', 'wrapper');
 	outer.appendChild(wrapper);
 
-	let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
+	let editBtn = newElem('button', 'edit-btn', '<img src="../Assets/edit.svg" alt="edit button">');
 	editBtn.title = 'Edit This Project Tag';
 	editBtn.onclick = () => {
-		window.location.href = `/edit/pro/${p.id}`;
+		window.api.send('edit-proj', { id: p.id });
 	}
 	outer.appendChild(editBtn);
 }

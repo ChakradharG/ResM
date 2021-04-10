@@ -5,17 +5,12 @@ async function sendTagToServer(method) {
 		tag.id = parseInt(document.getElementById('tag_id').innerText);
 	}
 
-	let response = await fetch('/api/tags', {
-		method: method,
-		body: JSON.stringify(tag),
-		headers: { 'Content-type': 'application/json' }
-	});
+	let response = await window.api.invoke(`${method.toLowerCase()}-tags`, tag);
 
 	if (response.ok) {
-		window.location.href = '/';
+		window.api.send('home');
 	} else {
-		let msg = await response.json();
-		alert(msg.code);
+		alert(response.code);
 	}
 }
 
@@ -29,20 +24,15 @@ async function sendProToServer(method) {
 		pro.id = parseInt(document.getElementById('pro_id').innerText);
 	}
 
-	let response = await fetch('/api/proj', {
-		method: method,
-		body: JSON.stringify(pro),
-		headers: { 'Content-type': 'application/json' }
-	});
+	let response = await window.api.invoke(`${method.toLowerCase()}-proj`, pro);
 
 	if (response.ok) {
-		window.location.href = '/';
+		window.api.send('home');
 	} else {
-		let msg = await response.json();
-		alert(msg.code);
+		alert(response.code);
 	}
 }
 
 function cancel() {
-	window.location.href = '/';
+	window.api.send('home');
 }

@@ -7,8 +7,7 @@ let Proj = null;
 
 
 (async () => {
-	const response = await fetch('/api/tags', {method: 'GET'});
-	Tags = await response.json();
+	Tags = await window.api.invoke('get-tags');
 	for (t of Tags) {
 		let opt = document.createElement('option');
 		opt.value = t.name;
@@ -17,8 +16,7 @@ let Proj = null;
 })();
 
 (async () => {
-	const response = await fetch('/api/proj', {method: 'GET'});
-	Proj = await response.json();
+	Proj = await window.api.invoke('get-proj');
 	for (p of Proj) {
 		let opt = document.createElement('option');
 		opt.value = p.name;
@@ -87,7 +85,7 @@ async function sendToServer(method) {
 
 		if (isNew) {
 			let redirect = confirm(`Tag '${t.innerText}' is not in the database, would you like to add it?\n(Note: Data entered on the current page will be lost)`);
-			return { redirect: redirect, redTo: '/Ancillary/addtag.html'};
+			return { redirect: redirect, redTo: './addtag.html' };
 		}
 	}
 
@@ -107,21 +105,16 @@ async function sendToServer(method) {
 
 		if (isNew) {
 			let redirect = confirm(`Project Tag '${p.innerText}' is not in the database, would you like to add it?\n(Note: Data entered on the current page will be lost)`);
-			return { redirect: redirect, redTo: '/Ancillary/addpro.html'};
+			return { redirect: redirect, redTo: './addpro.html' };
 		}
 	}
 
-	let response = await fetch('/api/data', {
-		method: method,
-		body: JSON.stringify(res),
-		headers: { 'Content-type': 'application/json' }
-	});
+	let response = await window.api.invoke(`${method.toLowerCase()}-data`, res);
 
 	if (response.ok) {
-		window.location.href = '/';
+		window.api.send('home');
 	} else {
-		let msg = await response.json();
-		alert(msg.code);
+		alert(response.code);
 	}
 }
 
@@ -133,5 +126,5 @@ async function STSWrapper(method) {
 }
 
 function cancel() {
-	window.location.href = '/';
+	window.api.send('home');
 }
