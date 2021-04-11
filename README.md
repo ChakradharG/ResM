@@ -7,7 +7,7 @@ This is an all-in-one resource manager where you can store links to webpages, co
 * Clone this repository
 * `cd ResM`
 * Execute `npm install`
-* `cd ResM/Database` and execute either `node ResM-Blank.js` or `sqlite3 ResM.db < ResM-Blank.sql` (requires the [SQLite command-line tools](https://sqlite.org/download.html) to work) to setup a blank database and its schema
+* `cd Database` and execute either `node ResM-Blank.js` or `sqlite3 ResM.db < ResM-Blank.sql` (requires the [SQLite command-line tools](https://sqlite.org/download.html) to work) to setup a blank database and its schema
 * You can also use the following commands to setup a blank database and its schema
 ```
 sqlite3 ResM.db
