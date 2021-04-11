@@ -36,7 +36,7 @@ function newElem(elemType, clsName, inhtml) {
 }
 
 inp1.addEventListener('keyup', (event) => {
-	if (event.key === 'Enter' && inp1.value != '') {
+	if (event.key === 'Enter' && inp1.value !== '') {
 		let tag1 = newElem('a', 'tag1', inp1.value);
 		tag1.onclick = () => {
 			wrap1.removeChild(tag1);
@@ -47,7 +47,7 @@ inp1.addEventListener('keyup', (event) => {
 });
 
 inp2.addEventListener('keyup', (event) => {
-	if (event.key === 'Enter' && inp2.value != '') {
+	if (event.key === 'Enter' && inp2.value !== '') {
 		let tag2 = newElem('a', 'tag2', inp2.value);
 		tag2.onclick = () => {
 			wrap2.removeChild(tag2);
@@ -87,7 +87,7 @@ async function sendToServer(method) {
 
 		if (isNew) {
 			let redirect = confirm(`Tag '${t.innerText}' is not in the database, would you like to add it?\n(Note: Data entered on the current page will be lost)`);
-			return { redirect: redirect, redTo: '/Ancillary/addtag.html'};
+			return { redirect: redirect, redTo: '/Ancillary/addtag.html' };
 		}
 	}
 
@@ -107,7 +107,7 @@ async function sendToServer(method) {
 
 		if (isNew) {
 			let redirect = confirm(`Project Tag '${p.innerText}' is not in the database, would you like to add it?\n(Note: Data entered on the current page will be lost)`);
-			return { redirect: redirect, redTo: '/Ancillary/addpro.html'};
+			return { redirect: redirect, redTo: '/Ancillary/addpro.html' };
 		}
 	}
 
