@@ -36,7 +36,7 @@ function createWindow() {
 })();
 
 app.whenReady().then(() => {
-	globalShortcut.register('Escape', () => {
+	globalShortcut.register('CmdOrCtrl+Q', () => {
 		app.quit();
 	});
 }).then(() => createWindow());
