@@ -1,6 +1,6 @@
 {
   "name": "resm",
-  "version": "0.1.0",
+  "version": "2.0.1",
   "description": "An all in one Resource Manager",
   "main": "main.js",
   "scripts": {
