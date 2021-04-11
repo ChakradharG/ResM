@@ -56,7 +56,7 @@ function appendCard(d) {
 	card.style.maxHeight = '59px';
 	resultsDiv.appendChild(card);
 
-	let link = (d.link === null) ? `` : `href=${d.link}`;
+	let link = (d.link === null) ? `` : (d.link.startsWith('/Local_Resources/') ? `href=..${d.link}` : `href=${d.link}`);
 	let title = newElem('div', 'title-wrapper', `<a ${link} target="_blank">${d.name}</a>`);
 	title.onclick = () => {
 		let tempCard = title.parentElement;
