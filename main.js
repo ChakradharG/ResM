@@ -9,37 +9,6 @@ let db = null;
 let win;
 
 
-function addCustomStyle(str, title) {
-	str = str.replace(/</g, '&lt;');
-	return (`<!DOCTYPE HTML>
-	<html>
-	<head>
-	<title>${title}</title>
-	<style>
-	body {
-		background-color: rgb(50, 50, 50);
-		color: white;
-		font-size: 18px;
-	}
-	body::-webkit-scrollbar {
-		width: 5px;
-		height: 5px;
-	}
-	body::-webkit-scrollbar-track {
-		background: black;
-	}
-	body::-webkit-scrollbar-thumb {
-		border-radius: 3px;
-		background: gray;
-	}
-	</style>
-	</head>
-	<body>
-	<pre>${str}</pre>
-	</body>
-	</html>`);
-}
-
 function createWindow() {
 	win = new BrowserWindow({
 		width: 620,
