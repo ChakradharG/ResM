@@ -70,11 +70,11 @@ app.whenReady().then(() => {
 	globalShortcut.register('Escape', () => {
 		app.quit();
 	});
-
-	app.on('activate', () => {
-		if (BrowserWindow.getAllWindows().length === 0) createWindow();
-	});
 }).then(() => createWindow());
+
+app.on('activate', () => {
+	if (BrowserWindow.getAllWindows().length === 0) createWindow();
+});
 
 app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') app.quit();
@@ -83,26 +83,6 @@ app.on('window-all-closed', () => {
 ipcMain.on('home', () => {
 	win.loadFile(path.join(__dirname, 'Frontend', 'index.html'));
 });
-
-// ipcMain.on('Local_Resource', (event, payLoad) => {
-// 	const { name } = payLoad;
-// 	let fileName = path.resolve(__dirname, 'Local_Resources', name);
-// 	if (fs.existsSync(fileName)) {
-// 		if (name.endsWith('.pdf')) { // Add other file types that can't be styles
-// 			win.loadFile(fileName);
-// 		} else {
-// 			fs.readFile(fileName, 'utf8', (err, data) => {
-// 				// if (err) {
-// 				// 	res.status(500).send(err);
-// 				// } else {
-// 					win.loadFile(encodeURIComponent(addCustomStyle(data, name)));
-// 				// }
-// 			});
-// 		}
-// 	// } else {
-// 	// 	res.status(404).send(`File '${fileName}' not found`)
-// 	}
-// });
 
 ipcMain.handle('get-data', async () => {
 	let data = await db.all(`SELECT * FROM resources`);

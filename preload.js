@@ -24,8 +24,7 @@ contextBridge.exposeInMainWorld('api', {
 			'edit-data',
 			'edit-tags',
 			'edit-proj',
-			'home',
-			'Local_Resource'
+			'home'
 		];
 		if (validChannels.includes(channel)) {
 			ipcRenderer.send(channel, payLoad);
