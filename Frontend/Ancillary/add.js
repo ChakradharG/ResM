@@ -34,7 +34,7 @@ function newElem(elemType, clsName, inhtml) {
 }
 
 inp1.addEventListener('keyup', (event) => {
-	if (event.key === 'Enter' && inp1.value != '') {
+	if (event.key === 'Enter' && inp1.value !== '') {
 		let tag1 = newElem('a', 'tag1', inp1.value);
 		tag1.onclick = () => {
 			wrap1.removeChild(tag1);
@@ -45,7 +45,7 @@ inp1.addEventListener('keyup', (event) => {
 });
 
 inp2.addEventListener('keyup', (event) => {
-	if (event.key === 'Enter' && inp2.value != '') {
+	if (event.key === 'Enter' && inp2.value !== '') {
 		let tag2 = newElem('a', 'tag2', inp2.value);
 		tag2.onclick = () => {
 			wrap2.removeChild(tag2);

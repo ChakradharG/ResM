@@ -64,8 +64,7 @@ function appendCard(d) {
 	}
 	card.appendChild(title);
 	
-	if (d.cont)
-		card.appendChild(newElem('div', 'cont', d.cont));
+	if (d.cont) card.appendChild(newElem('div', 'cont', d.cont));
 
 	let outer = newElem('div', 'outer-wrapper');
 	card.appendChild(outer);
@@ -80,8 +79,8 @@ function appendCard(d) {
 		wrapper.appendChild(tElem);
 	}
 
-	if (d.proj.length != 0) {
-		if (d.tags.length != 0) {
+	if (d.proj.length !== 0) {
+		if (d.tags.length !== 0) {
 			outer = newElem('div', 'outer-wrapper');
 			card.appendChild(outer);
 			wrapper = newElem('div', 'wrapper');
