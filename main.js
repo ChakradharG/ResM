@@ -75,7 +75,7 @@ function addCustomStyle(str, title) {
 		}
 	});
 
-	app.get('/edit/:id', async (req, res) => {
+	app.get('/edit/data/:id', async (req, res) => {
 		try {
 			let resource = await db.get(`SELECT * FROM resources WHERE id = ?`, req.params.id);
 			if (resource === undefined) throw ('Resource with that ID does not exist');
@@ -94,7 +94,7 @@ function addCustomStyle(str, title) {
 		}
 	});
 
-	app.get('/edit/tag/:id', async (req, res) => {
+	app.get('/edit/tags/:id', async (req, res) => {
 		try {
 			let tag = await db.get(`SELECT * FROM tags WHERE id = ?`, req.params.id);
 			if (tag === undefined) throw ('Tag with that ID does not exist');
@@ -105,7 +105,7 @@ function addCustomStyle(str, title) {
 		}
 	});
 
-	app.get('/edit/pro/:id', async (req, res) => {
+	app.get('/edit/proj/:id', async (req, res) => {
 		try {
 			let pro = await db.get(`SELECT * FROM projects WHERE id = ?`, req.params.id);
 			if (pro === undefined) throw ('Project Tag with that ID does not exist');

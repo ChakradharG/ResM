@@ -102,7 +102,7 @@ function appendCard(d) {
 	let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
 	editBtn.title = 'Edit This Card';
 	editBtn.onclick = () => {
-		window.location.href = `/edit/${d.id}`;
+		window.location.href = `/edit/data/${d.id}`;
 	}
 	outer.appendChild(editBtn);
 }
@@ -127,7 +127,7 @@ function appendTagCard(t) {
 	let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
 	editBtn.title = 'Edit This Tag';
 	editBtn.onclick = () => {
-		window.location.href = `/edit/tag/${t.id}`;
+		window.location.href = `/edit/tags/${t.id}`;
 	}
 	outer.appendChild(editBtn);
 }
@@ -153,7 +153,7 @@ function appendProCard(p) {
 	let editBtn = newElem('button', 'edit-btn', '<img src="/Assets/edit.svg" alt="edit button">');
 	editBtn.title = 'Edit This Project Tag';
 	editBtn.onclick = () => {
-		window.location.href = `/edit/pro/${p.id}`;
+		window.location.href = `/edit/proj/${p.id}`;
 	}
 	outer.appendChild(editBtn);
 }
