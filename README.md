@@ -4,7 +4,7 @@ This is an all-in-one resource manager where you can store links to webpages, co
 <br>
 
 ## Getting Started
-* Clone this repository
+* Clone this repository (`git clone -b main https://github.com/ChakradharG/ResM.git`)
 * `cd ResM`
 * Execute `npm install`
 * `cd Database` and execute either `node ResM-Blank.js` or `sqlite3 ResM.db < ResM-Blank.sql` (requires the [SQLite command-line tools](https://sqlite.org/download.html) to work) to setup a blank database and its schema
