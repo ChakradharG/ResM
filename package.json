@@ -24,9 +24,6 @@
     "ejs": "^3.1.6",
     "ejs-electron": "^2.1.1",
     "electron-squirrel-startup": "^1.0.0",
-    "meow": "^10.1.1",
-    "nugget": "^2.0.1",
-    "pretty-bytes": "^5.6.0",
     "sqlite": "^4.0.21",
     "sqlite3": "git@github.com:mapbox/node-sqlite3.git#3fb3715c4e699ca3bc19e47b136758c66f61e477",
     "trim-newlines": "^4.0.2"
