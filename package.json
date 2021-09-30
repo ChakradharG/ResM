@@ -23,7 +23,7 @@
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "sqlite": "^4.0.21",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "git@github.com:mapbox/node-sqlite3.git#3fb3715c4e699ca3bc19e47b136758c66f61e477"
   },
   "type": "module"
 }
