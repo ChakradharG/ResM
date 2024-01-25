@@ -156,7 +156,7 @@ function appendProCard(p) {
 }
 
 function strToRegEx(str) {
-	str = str.replace(/[-[\]{}()*+?.,\\/^$|#\s]/g, '\\$&'); // Escaping RegEx special characters
+	// str = str.replace(/[-[\]{}()*+?.,\\/^$|#\s]/g, '\\$&'); // Escaping RegEx special characters
 	let searchTerm = `.*${str}.*`;
 	// let searchTerm = '.*';
 	// for (let i  of str) {

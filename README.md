@@ -25,7 +25,7 @@ sqlite3 ResM.db
 * The project tags are special tags that you can use to link resources to your projects. Clicking on a project tag redirects to the project url (provided you have added a url to that project tag)
 * You may add a &lt;pre> block in the content section of a resource to display it as is, i.e with the original formatting
 * You may add a &lt;code> block in the content section of a resource to highlight a single-line code snippet (for multi-line code snippets, use &lt;pre class="code">)
-* After adding a few resources, start typing into the search bar to search for resources (resources appear as cards below the search bar)
+* After adding a few resources, start typing into the search bar (powered by RegEx) to search for resources (resources appear as cards below the search bar)
 * Click on a card to expand it
 * To search for resources that have a specific tag, prepend the tag name with `~:hastag:` (or `~:ht:`) in the search bar, i.e `~:hastag:foo` to get all the resources that have the `foo` tag
 * To search for resources that have a specific project tag, prepend the project name with `~:haspro:` (or `~:hp:`) in the search bar, i.e `~:haspro:bar` to get all the resources that have the `bar` project tag
