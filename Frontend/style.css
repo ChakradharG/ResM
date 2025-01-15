@@ -15,7 +15,7 @@ body {
 	background-position: center;
 	min-width: 620px;
 	height: 100vh;
-	min-height: 720px;
+	min-height: 520px;
 	text-align: center;
 	display: flex;
 }
@@ -35,7 +35,7 @@ body::-webkit-scrollbar-thumb {
 	backdrop-filter: blur(25px);
 	padding: 30px 0px;
 	margin: auto;
-	min-height: 690px;
+	min-height: 490px;
 	height: 96vh;
 	min-width: 600px;
 	width: 75%;
@@ -122,6 +122,7 @@ button:hover {
 .title-wrapper {
 	cursor: pointer;
 	padding: 20px;
+	height: 59px;
 }
 
 .cont {
